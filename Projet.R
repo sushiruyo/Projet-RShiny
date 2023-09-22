@@ -24,6 +24,24 @@ con <- dbConnect(MySQL(),
                  host = "sql11.freesqldatabase.com",
                  dbname = "sql11646648")
 
+# connexion bdd Anne-Danielle
+con<- dbConnect(MySQL(),
+                user= 'sql11646660',
+                password= 'EP9eSuDAJ5',
+                host="sql11.freedatabase.com",
+                dbname="sql11646660")
+#deconnexion
+
+pool <- dbPool(
+  drv = RMySQL::MySQL(),
+  dbname = "sql11646660",
+  host = "sql11.freedatabase.com",
+  username = "sql11646660",
+  password = "EP9eSuDAJ5"
+)
+poolClose(pool)
+
+
 
 ui <- fluidPage(
   
@@ -39,14 +57,14 @@ ui <- fluidPage(
                   max = 50,
                   value = 30)
     ),
-    
+ 
     # Show a plot of the generated distribution
     mainPanel(
       
       
       tabsetPanel(type = "tabs",
                   tabPanel("Plot", plotOutput("distPlot")),
-                  tabPanel("2e", plotOutput("dist2plot"))
+                  tabPanel("2e", plotOutput("dist2plot")),
       )
     )
   )
