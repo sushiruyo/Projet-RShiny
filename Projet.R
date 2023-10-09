@@ -1,3 +1,10 @@
+install.packages("shiny")
+install.packages("leaflet")
+install.packages("httr")
+install.packages("jsonlite")
+install.packages("RMySQL")
+install.packages("pool")
+
 library(shiny)
 library(leaflet)
 library(httr)
@@ -17,30 +24,6 @@ print(response)
 
 Velov_list <- fromJSON(rawToChar(response$content), flatten = TRUE)
 df <- data.frame(Velov_list)
-
-con <- dbConnect(MySQL(), 
-                 user = "sql11646648",
-                 password = "evq3U456nu",
-                 host = "sql11.freesqldatabase.com",
-                 dbname = "sql11646648")
-
-# connexion bdd Anne-Danielle
-con<- dbConnect(MySQL(),
-                user= 'sql11646660',
-                password= 'EP9eSuDAJ5',
-                host="sql11.freedatabase.com",
-                dbname="sql11646660")
-#deconnexion
-
-pool <- dbPool(
-  drv = RMySQL::MySQL(),
-  dbname = "sql11646660",
-  host = "sql11.freedatabase.com",
-  username = "sql11646660",
-  password = "EP9eSuDAJ5"
-)
-poolClose(pool)
-
 
 
 ui <- fluidPage(
@@ -65,6 +48,7 @@ ui <- fluidPage(
       tabsetPanel(type = "tabs",
                   tabPanel("Plot", plotOutput("distPlot")),
                   tabPanel("2e", plotOutput("dist2plot")),
+                  tabPanel("Mymap",leafletOutput("mymap")),
       )
     )
   )
@@ -94,6 +78,19 @@ server <- function(input, output) {
         xlab = 'Waiting time to next eruption (in mins)',
         main = 'Test')
   })
+    
+    points <- reactive({
+      positions
+    })
+    
+    output$mymap <- renderLeaflet({
+      leaflet() %>%
+        addProviderTiles(providers$Stamen.TonerLite,
+                         options = providerTileOptions(noWrap = TRUE)
+        ) %>%
+        # Utilisez les données de votre dataframe ici
+        addMarkers(data = points())
+  })
 }
 
 
@@ -110,6 +107,7 @@ positions <- data.frame(
 )
 
 ui <- fluidPage(
+  
   leafletOutput("mymap"),
   p(),
   actionButton("recalc", "New points")
@@ -142,14 +140,5 @@ shinyApp(ui, server)
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-
-# Se déconnecter de la BDD (important à utiliser car on est limités à 15 connexions)
-pool <- dbPool(
-  drv = RMySQL::MySQL(),
-  dbname = "sql11646648",
-  host = "sql11.freesqldatabase.com",
-  username = "sql11646648",
-  password = "evq3U456nu"
-)
 
 poolClose(pool)

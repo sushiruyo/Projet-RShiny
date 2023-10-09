@@ -13,10 +13,11 @@ library(shiny)
 ui <- fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("R project"),
+
 
     # Sidebar with a slider input for number of bins 
-    sidebarLayout(
+    sidebarLayout( 
         sidebarPanel(
             sliderInput("bins",
                         "Number of bins:",
@@ -32,7 +33,9 @@ ui <- fluidPage(
           
           tabsetPanel(type = "tabs",
                       tabPanel("Plot", plotOutput("distPlot")),
-                      tabPanel("2e", plotOutput("dist2plot"))
+                      tabPanel("2e", plotOutput("dist2plot")),
+                      tabPanel("Mymapp",leafletOutput("mymap"))
+                     
           )
         )
     )
@@ -62,6 +65,18 @@ server <- function(input, output) {
            xlab = 'Waiting time to next eruption (in mins)',
            main = 'Test')
     })
+    points <- reactive({
+      positions
+    })
+    
+    output$mymap <- renderLeaflet({
+      leaflet() %>%
+        addProviderTiles(providers$Stamen.TonerLite,
+                         options = providerTileOptions(noWrap = TRUE)
+        ) %>%
+        # Utilisez les données de votre dataframe ici
+        addMarkers(data = points())
+})
 }
 
 # Run the application 
