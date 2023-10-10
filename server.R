@@ -47,10 +47,11 @@ server <- function(input, output) {
       addProviderTiles(providers$Stamen.TonerLite,
                        options = providerTileOptions(noWrap = TRUE))
     
-    # Add clustered markers
+    # Add clustered markers with popups
     m %>% addCircleMarkers(
       data = points(),
-      clusterOptions = markerClusterOptions()
+      clusterOptions = markerClusterOptions(),
+      popup = ~paste("Nombre de vélos disponibles: ", df$available_bikes)
     )
   })
 }
