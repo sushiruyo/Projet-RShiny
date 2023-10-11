@@ -38,6 +38,21 @@ server <- function(input, output) {
     long = df$position.lng
   )
   
+  df$color_point <- ifelse(df$status == "OPEN", 
+                           "<span style='color:green'>&#9679;</span>", 
+                           "<span style='color:red'>&#9679;</span>")
+  
+  df$popup_content <- paste0(
+    "<div style='font-family:Arial; border: 1px solid #333; padding: 10px; border-radius: 5px;'>",
+    "<h4 style='margin-top: 0; color: #007BFF;'>Station ", df$name, "</h2>",  # Station name as title
+    df$color_point, 
+    "<strong style='color: #555;'>Status: </strong>", df$status, "<br>",
+    "<strong style='color: #555;'>Nombre de vélos disponibles: </strong>", df$available_bikes, "<br>",
+    "<strong style='color: #555;'>Nombre de stands disponibles: </strong>", df$available_bike_stands,
+    "</div>"
+  )
+  
+  
   points <- reactive({
     positions
   })
@@ -51,7 +66,7 @@ server <- function(input, output) {
     m %>% addCircleMarkers(
       data = points(),
       clusterOptions = markerClusterOptions(),
-      popup = ~paste("Nombre de vélos disponibles: ", df$available_bikes)
+      popup = ~df$popup_content
     )
   })
 }
