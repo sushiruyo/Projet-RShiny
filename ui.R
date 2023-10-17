@@ -44,8 +44,20 @@ ui <- dashboardPage(
       
       # Contenu du deuxième onglet
       tabItem(tabName = "emptyTab",
-              h2("Cet onglet est vide.")
+              fluidRow(
+                infoBox("Nb vélo",1000,icon=icon("thumbs-up")),
+                infoBox("Nb stations",50,icon=icon(""))
+              ),
+              fluidRow(
+                tabBox(
+                tabPanel(title = "TOP 10 STATIONS",
+                  box(plotOutput("histograme"))
+                )
+              
       )
+      
+    )
     )
   )
+)
 )

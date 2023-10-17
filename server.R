@@ -29,6 +29,7 @@ df <- data.frame(Velov_list)
 
 
 
+
 # Define server logic required to draw a histogram
 server <- function(input, output) {
   
@@ -68,5 +69,8 @@ server <- function(input, output) {
       clusterOptions = markerClusterOptions(),
       popup = ~df$popup_content
     )
+  })
+  output$histograme<- renderPlot({
+    barplot(height = sort(table(iris$Sepal.Length)),horiz=T)
   })
 }
