@@ -18,7 +18,7 @@ library(shiny)
 
 # Définir l'interface utilisateur de l'application
 ui <- dashboardPage(
-  dashboardHeader(title = "Dashboard Velov"),
+  dashboardHeader(title = "MyVelov"),
   
   dashboardSidebar(
     sidebarMenu(
