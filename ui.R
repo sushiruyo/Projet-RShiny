@@ -23,7 +23,7 @@ ui <- dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("MyMap", tabName = "mapTab"),
-      menuItem("Onglet Vide", tabName = "emptyTab")
+      menuItem("MyKPI's", tabName = "emptyTab")
     )
   ),
   
