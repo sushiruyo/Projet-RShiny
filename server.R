@@ -6,6 +6,7 @@ if(!require(RMySQL)){install.packages("RMySQL")}
 if(!require(pool)){install.packages("pool")}
 if(!require(shinydashboard)){install.packages("shinydashboard")}
 
+
 library(leaflet)
 library(httr)
 library(jsonlite)
@@ -16,6 +17,8 @@ library(shiny)
 
 contract <- "Lyon"
 api_key <- "400699ac5a2d81c64cf5485dd8f6f20f3520e456"
+
+
 
 base_url <- "https://api.jcdecaux.com/vls/v1/stations?"
 url <- paste0(base_url, "contract=", contract, "&apiKey=", api_key)
@@ -28,8 +31,6 @@ Velov_list <- fromJSON(rawToChar(response$content), flatten = TRUE)
 df <- data.frame(Velov_list)
 
 
-
-
 # Define server logic required to draw a histogram
 server <- function(input, output) {
   
@@ -38,6 +39,8 @@ server <- function(input, output) {
     lat = df$position.lat,
     long = df$position.lng
   )
+  
+  
   
   df$color_point <- ifelse(df$status == "OPEN", 
                            "<span style='color:green'>&#9679;</span>", 
@@ -48,11 +51,21 @@ server <- function(input, output) {
     "<h4 style='margin-top: 0; color: #007BFF;'>Station ", df$name, "</h2>",  # Station name as title
     df$color_point, 
     "<strong style='color: #555;'>Status: </strong>", df$status, "<br>",
-    "<strong style='color: #555;'>Nombre de vélos disponibles: </strong>", df$available_bikes, "<br>",
+    "<strong style='color: #555;'>Nombre de vC)los disponibles: </strong>", df$available_bikes, "<br>",
     "<strong style='color: #555;'>Nombre de stands disponibles: </strong>", df$available_bike_stands,
     "</div>"
   )
   
+  #refresh les donn??es 
+    
+  refreshData <- function(){
+      response <- GET(url)
+      Velov_list <- fromJSON(rawToChar(response$content), flatten = TRUE) 
+      dataReactive$datavalue <- new_data
+    }
+    observeEvent(input$refresh_data, {
+      refreshData() 
+    })
   
   points <- reactive({
     positions
@@ -71,6 +84,23 @@ server <- function(input, output) {
     )
   })
   output$histograme<- renderPlot({
-    barplot(height = sort(table(iris$Sepal.Length)),horiz=T)
+    barplot(height = sort(table(df$available_bikes)),horiz=T)
   })
+  output$Nb_velo<- renderInfoBox({
+    infoBox(
+    title = "Nb de v??lo",
+    value = sum(df$available_bikes),  
+    icon = icon("thumbs-up"),
+    color = "blue"
+  )
+  })
+  output$Nb_stations<- renderInfoBox({
+    infoBox(
+      title = "Nb de stations",
+      value = sum(df$station),  
+      icon = icon("bicycle"),
+      color = "white"
+    )
+  })
+  
 }
