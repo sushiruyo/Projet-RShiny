@@ -31,7 +31,7 @@ df <- data.frame(Velov_list)
 
 
 # Define server logic required to draw a histogram
-server <- function(input, output) {
+server <- function(input, output, session) {
   
   # Assuming df is your data frame with lat and long data
   positions <- data.frame(
