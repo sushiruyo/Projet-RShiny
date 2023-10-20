@@ -56,20 +56,26 @@ server <- function(input, output, session) {
     "</div>"
   )
   
-  #refresh les donn??es 
-    
-  refreshData <- function(){
-      response <- GET(url)
-      Velov_list <- fromJSON(rawToChar(response$content), flatten = TRUE) 
-      dataReactive$datavalue <- new_data
-    }
-    observeEvent(input$refresh_data, {
-      refreshData() 
-    })
+  #refresh les données 
+  dataReactive <- reactiveVal(df)
   
-  points <- reactive({
-    positions
+  refreshData <- function(){
+    response <- GET(url)
+    Velov_list <- fromJSON(rawToChar(response$content), flatten = TRUE) 
+    dataReactive(Velov_list)
+  }
+  observeEvent(input$refresh_data, {
+    refreshData()
   })
+  
+    points <- reactive({
+      data <- dataReactive()
+      positions <- data.frame(
+        lat = data$position.lat,
+        long = data$position.lng
+      )
+      positions
+    })
   
   output$mymap <- renderLeaflet({
     m <- leaflet() %>%
@@ -86,21 +92,22 @@ server <- function(input, output, session) {
   output$histograme<- renderPlot({
     barplot(height = sort(table(df$available_bikes)),horiz=T)
   })
+  
   output$Nb_velo<- renderInfoBox({
     infoBox(
-    title = "Nb de v??lo",
+    title = "Nb de vélos disponible",
     value = sum(df$available_bikes),  
-    icon = icon("thumbs-up"),
+    icon = icon("bicycle"),
     color = "blue"
   )
   })
   output$Nb_stations<- renderInfoBox({
     infoBox(
-      title = "Nb de stations",
-      value = sum(df$station),  
-      icon = icon("bicycle"),
-      color = "white"
-    )
+    title = "Nb de stations",
+    value = nrow(df),  
+    icon = icon("home"),
+    color = "blue",
+  )
   })
   
 }

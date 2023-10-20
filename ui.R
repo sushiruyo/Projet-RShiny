@@ -16,7 +16,7 @@ library(pool)
 library(shinydashboard)
 library(shiny)
 
-# DC)finir l'interface utilisateur de l'application
+# Définir l'interface utilisateur de l'application
 ui <- dashboardPage(
   dashboardHeader(title = "MyVelov"),
   
@@ -28,26 +28,27 @@ ui <- dashboardPage(
   ),
   
   dashboardBody(
-    # CSS personnalisC) pour dC)finir une hauteur fixe pour la carte
+    # CSS personnalisé pour définir une hauteur fixe pour la carte
     tags$head(tags$style(HTML("
       .leaflet-container {
         height: 600px;  # Hauteur fixe pour la carte
         width: 100%;   # Largeur maximale pour la carte
       }
     "))),
-    actionButton("refresh_data","Actualiser les donnees"),  #refresh les donn??es 
     
     tabItems(
       # Contenu du premier onglet
       tabItem(tabName = "mapTab",
-              leafletOutput("mymap", height = "600px")  # DC)finir une hauteur fixe pour la sortie de la carte
+              leafletOutput("mymap", height = "600px"),
+              actionButton("refresh_data","Actualiser les donnees"),  #refresh les donn??es# DC)finir une hauteur fixe pour la sortie de la carte
       ),
       
       # Contenu du deuxiC(me onglet
       tabItem(tabName = "emptyTab",
+              includeCSS("www/custom.css"),
               fluidRow(
                 infoBoxOutput("Nb_velo"),
-                infoBoxOutput("Nb_stations")
+                div(class = "custom-info-box",infoBoxOutput("Nb_stations"))
               ),
               fluidRow(
                 tabBox(
