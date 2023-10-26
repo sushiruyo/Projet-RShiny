@@ -51,22 +51,15 @@ ui <- dashboardPage(
                 div(class = "custom-info-box",infoBoxOutput("Nb_stations"))
               ),
               fluidRow(
-                tabBox(
-                tabPanel(title = "TOP 10 STATIONS",
-                  box(plotOutput("histograme"))
-                ),
-              fluidRow( 
-                tabBox(
-                tabPanel(title="Indicateur_2??me",
-                  box(plotOutput("Graphique"))
-                   )
-              ) # Ajout d'un autre indicateur 
-              
+                column(9,
+                    box("TOP 10 des stations",plotOutput("histograme")),
+                  column(3,
+                         box("autre indicateur")))
+)
+)
       )
       
     )
     )
-  )
-)
-)
-)
+
+
