@@ -48,13 +48,13 @@ ui <- dashboardPage(
               includeCSS("www/custom.css"),
               fluidRow(
                 infoBoxOutput("Nb_velo"),
-                div(class = "custom-info-box",infoBoxOutput("Nb_stations"))
+                div(class = "custom-info-box",infoBoxOutput("Nb_stations"),infoBoxOutput("Nb_stations_fermee"))
               ),
               fluidRow(
-                column(9,
+                column(12,
                     box("TOP 10 des stations",plotOutput("histograme")),
-                  column(3,
-                         box("autre indicateur")))
+                  column(12,
+                         box("Stations bonus",plotOutput("pie"))))
 )
 )
       )
