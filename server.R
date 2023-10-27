@@ -127,19 +127,19 @@ server <- function(input, output, session) {
   })
   
   ## Histogramme
-  output$histograme <- renderPlot({
+  output$histogram <- renderPlot({
     # Créer un tableau de fréquence des vélos disponibles
     tab <- sort(table(df$available_bikes))
     
-    # Créer un dataframe pour le graphique avec les données triées
-    df_plot <- data.frame(Count = tab, BikeCount = df$names)
-    
-    # Créer un graphique d'histogramme horizontal avec ggplot2
-    ggplot(df_plot, aes(x = Count, y = BikeCount)) +
+    # Créer un graphique d'histogramme vertical avec ggplot2
+    ggplot(data = data.frame(Frequency = as.numeric(df$names(tab)), Count = as.numeric(tab)),
+           aes(x = Frequency, y = Count)) +
       geom_bar(stat = "identity") +
       labs(x = "Fréquence", y = "Nombre de vélos") +
       theme_minimal()
   })
+  
+  
   
   
   ## Graphique Pie 
@@ -148,7 +148,7 @@ server <- function(input, output, session) {
     df_pie <- as.data.frame(table(df$bonus))
     
     # Créez un graphique de secteurs avec ggplot2
-    p <- ggplot(df_pie, aes(x = "", y = Freq, fill = Var1)) +
+    camembert <<- ggplot(df_pie, aes(x = "", y = Freq, fill = Var1)) +
       geom_bar(stat = "identity") +
       coord_polar("y") +
       labs(fill = "Bonus") +
@@ -156,7 +156,7 @@ server <- function(input, output, session) {
       theme(legend.position = "right")  # Positionnez la légende sur le côté droit
     
     # Rendre le graphique
-    print(p)
+    print(camembert)
   })
   
   ## Fonctionnalité export PNG
@@ -167,7 +167,7 @@ server <- function(input, output, session) {
     content = function(file) {
       # Sauvegardez le graphique en tant que fichier PNG
       png(file, width = 800, height = 600)
-      print(p)  # Remplacez ggplot_graph par le nom de votre objet graphique ggplot2
+      print(camembert)  # Remplacez ggplot_graph par le nom de votre objet graphique ggplot2
       dev.off()
     })
   
