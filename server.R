@@ -90,8 +90,15 @@ server <- function(input, output, session) {
     )
   })
   output$histograme<- renderPlot({
-    barplot(height = sort(table(df$available_bikes)),horiz=T)
+    tab<- sort(table(df$available_bikes))
+    barplot(height = tab,names.arg= df$names,horiz=T)
   })
+  
+  output$pie<- renderPlot({
+    pie(x=table(df$bonus))
+  })
+  
+  
   
   output$Nb_velo<- renderInfoBox({
     infoBox(
@@ -109,5 +116,12 @@ server <- function(input, output, session) {
     color = "blue",
   )
   })
-  
+  output$Nb_stations_fermee<- renderInfoBox({
+    infoBox(
+      title = "Nb de stations avec terminale de paiement",
+      value = sum(df$banking=="TRUE"),  
+      icon = icon("credit-card"),
+      color = "green",
+    )
+  })
 }

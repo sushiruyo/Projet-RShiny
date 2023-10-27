@@ -23,7 +23,8 @@ ui <- dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("MyMap", tabName = "mapTab"),
-      menuItem("MyKPI's", tabName = "emptyTab")
+      menuItem("MyKPI's", tabName = "emptyTab"),
+      selectInput("choix",label="choisissez une station",choices= names(df))
     )
   ),
   
@@ -48,25 +49,18 @@ ui <- dashboardPage(
               includeCSS("www/custom.css"),
               fluidRow(
                 infoBoxOutput("Nb_velo"),
-                div(class = "custom-info-box",infoBoxOutput("Nb_stations"))
+                div(class = "custom-info-box",infoBoxOutput("Nb_stations"),infoBoxOutput("Nb_stations_fermee"))
               ),
               fluidRow(
-                tabBox(
-                tabPanel(title = "TOP 10 STATIONS",
-                  box(plotOutput("histograme"))
-                ),
-              fluidRow( 
-                tabBox(
-                tabPanel(title="Indicateur_2??me",
-                  box(plotOutput("Graphique"))
-                   )
-              ) # Ajout d'un autre indicateur 
-              
+                column(12,
+                    box("TOP 10 des stations",plotOutput("histograme")),
+                  column(12,
+                         box("Stations bonus",plotOutput("pie"))))
+)
+)
       )
       
     )
     )
-  )
-)
-)
-)
+
+
