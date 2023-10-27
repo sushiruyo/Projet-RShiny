@@ -23,7 +23,8 @@ ui <- dashboardPage(
   dashboardSidebar(
     sidebarMenu(
       menuItem("MyMap", tabName = "mapTab"),
-      menuItem("MyKPI's", tabName = "emptyTab")
+      menuItem("MyKPI's", tabName = "emptyTab"),
+      selectInput("choix",label="choisissez une station",choices= names(df))
     )
   ),
   
