@@ -1,3 +1,28 @@
 .custom-info-box {
     width: 100px;  /* Définissez la largeur souhaitée en pixels */
   }
+  
+/* Couleur de fond de la barre de navigation */
+.main-header {
+    background-color: #E20F20;
+}
+
+/* Couleur du texte de la barre de navigation */
+.main-header .logo {
+    color: #495867;
+}
+
+/* Couleur de fond des onglets */
+.nav-tabs-custom > .nav-tabs > li.active {
+    background-color: #E20F20;
+}
+
+/* Couleur du texte des onglets actifs */
+.nav-tabs-custom > .nav-tabs > li.active a {
+    color: #495867;
+}
+
+/* Couleur du texte des onglets inactifs */
+.nav-tabs-custom > .nav-tabs > li a {
+    color: #E20F20;
+}
