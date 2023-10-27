@@ -1,4 +1,3 @@
-# Installer les packages si nC)cessaire
 if(!require(shiny)){install.packages("shiny")}
 if(!require(leaflet)){install.packages("leaflet")}
 if(!require(httr)){install.packages("httr")}
@@ -6,8 +5,11 @@ if(!require(jsonlite)){install.packages("jsonlite")}
 if(!require(RMySQL)){install.packages("RMySQL")}
 if(!require(pool)){install.packages("pool")}
 if(!require(shinydashboard)){install.packages("shinydashboard")}
+if(!require(shinydashboard)){install.packages("shinyFiles")}
+if(!require(shinydashboard)){install.packages("shinyjs")}
+if(!require(shinydashboard)){install.packages("ggplot2")}
 
-# Charger les bibliothC(ques nC)cessaires
+library(shinyFiles)
 library(leaflet)
 library(httr)
 library(jsonlite)
@@ -15,8 +17,10 @@ library(RMySQL)
 library(pool)
 library(shinydashboard)
 library(shiny)
+library(shinyjs)
+library(ggplot2)
 
-# Définir l'interface utilisateur de l'application
+
 ui <- dashboardPage(
   dashboardHeader(title = "MyVelov"),
   
@@ -24,7 +28,7 @@ ui <- dashboardPage(
     sidebarMenu(
       menuItem("MyMap", tabName = "mapTab"),
       menuItem("MyKPI's", tabName = "emptyTab"),
-      selectInput("choix",label="choisissez une station",choices= names(df))
+      selectInput("Choix",label="Choisissez une station",choices= df$name )
     )
   ),
   
@@ -53,14 +57,19 @@ ui <- dashboardPage(
               ),
               fluidRow(
                 column(12,
-                    box("TOP 10 des stations",plotOutput("histograme")),
-                  column(12,
-                         box("Stations bonus",plotOutput("pie"))))
-)
-)
+                       box("TOP 10 des stations",plotOutput("histograme")),
+                       column(12,
+                              box("Stations bonus",plotOutput("pie"))))
+              ),
+              box(
+                # Bouton d'exportation en PNG
+                downloadButton("exporter_png", "Exporter en PNG"),
+                width = 12,
+              ),
+              
+              
       )
-      
     )
-    )
-
-
+    
+  )
+)
