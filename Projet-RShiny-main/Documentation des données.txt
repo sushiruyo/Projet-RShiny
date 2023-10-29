@@ -1,0 +1,7 @@
+"bike_stands" = toutes les bornes de vélos à la station
+"available_bike_stands" = toutes les bornes de vélos vides actuellement (le vélo a été pris)
+"available_bikes" = nombre de vélos disponibles à la station (que l'on peut utiliser)
+
+"Tables : communes, stations, état (api key sur état pour refresh)"
+"pour l'UI : aller voir layout R shiny sur google"
+"pour la carte : r shiny leaflet"

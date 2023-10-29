@@ -1,0 +1,8 @@
+danielle
+
+install.packages("shiny")
+install.packages("leaflet")
+install.packages("httr")
+install.packages("jsonlite")
+install.packages("RMySQL")
+install.packages("pool")
