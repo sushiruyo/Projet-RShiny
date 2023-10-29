@@ -1,0 +1,13 @@
+name: MyVelov
+title: MyVelov
+username: myvelov
+account: myvelov
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 10348988
+bundleId: 7866968
+url: https://myvelov.shinyapps.io/MyVelov/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData|Comment utiliser notre application My Velov.docx|custom.css|Documentation des données.txt|README.md|server.R|toto.txt|ui.R|www/custom.css|Projet-RShiny-main
