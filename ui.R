@@ -1,13 +1,15 @@
-if(!require(shiny)){install.packages("shiny")}
-if(!require(leaflet)){install.packages("leaflet")}
-if(!require(httr)){install.packages("httr")}
-if(!require(jsonlite)){install.packages("jsonlite")}
-if(!require(RMySQL)){install.packages("RMySQL")}
-if(!require(pool)){install.packages("pool")}
-if(!require(shinydashboard)){install.packages("shinydashboard")}
-if(!require(shinydashboard)){install.packages("shinyFiles")}
-if(!require(shinydashboard)){install.packages("shinyjs")}
-if(!require(shinydashboard)){install.packages("ggplot2")}
+# Liste des packages requis
+packages <- c("shinyFiles", "leaflet", "httr", "jsonlite", "RMySQL", "pool", "shinydashboard", "shiny", "shinyjs", "ggplot2")
+
+# Vérifier et installer les packages manquants
+for (package in packages) {
+  if (!requireNamespace(package, quietly = TRUE)) {
+    install.packages(package)
+  }
+}
+
+# Maintenant, charger les packages
+lapply(packages, library, character.only = TRUE)
 
 library(shinyFiles)
 library(leaflet)

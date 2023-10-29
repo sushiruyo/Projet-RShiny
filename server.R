@@ -1,13 +1,15 @@
-if(!require(shiny)){install.packages("shiny")}
-if(!require(leaflet)){install.packages("leaflet")}
-if(!require(httr)){install.packages("httr")}
-if(!require(jsonlite)){install.packages("jsonlite")}
-if(!require(RMySQL)){install.packages("RMySQL")}
-if(!require(pool)){install.packages("pool")}
-if(!require(shinydashboard)){install.packages("shinydashboard")}
-if(!require(shinydashboard)){install.packages("shinyFiles")}
-if(!require(shinydashboard)){install.packages("shinyjs")}
-if(!require(shinydashboard)){install.packages("ggplot2")}
+# Liste des packages requis
+packages <- c("shinyFiles", "leaflet", "httr", "jsonlite", "RMySQL", "pool", "shinydashboard", "shiny", "shinyjs", "ggplot2")
+
+# Vérifier et installer les packages manquants
+for (package in packages) {
+  if (!requireNamespace(package, quietly = TRUE)) {
+    install.packages(package)
+  }
+}
+
+# Maintenant, charger les packages
+lapply(packages, library, character.only = TRUE)
 
 library(shinyFiles)
 library(leaflet)
@@ -21,24 +23,10 @@ library(shinyjs)
 library(ggplot2)
 
 
-contract <- "Lyon"
-api_key <- "400699ac5a2d81c64cf5485dd8f6f20f3520e456"
-
-
-
-base_url <- "https://api.jcdecaux.com/vls/v1/stations?"
-url <- paste0(base_url, "contract=", contract, "&apiKey=", api_key)
-
-response <- GET(url)
-
-print(response)
-
-Velov_list <- fromJSON(rawToChar(response$content), flatten = TRUE)
-df <- data.frame(Velov_list)
-
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
+  
   
   shinyDirChoose(input, "outputDir", roots = c(wd = getwd()))
   # Assuming df is your data frame with lat and long data
